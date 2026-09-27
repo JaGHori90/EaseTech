@@ -45,18 +45,19 @@
 
     </div>
     <br>
+    <div class="table-responsive">
     <table class="table">
         <thead>
             <tr class="text-center">
-                <th>Bearbeiter</th>
+                <th class="d-none d-md-table-cell">Bearbeiter</th>
                 <th>Kunde</th>
                 <th>Service</th>
-                <th>Datum</th>
+                <th class="d-none d-md-table-cell">Datum</th>
                 <th>Status</th>
-                <th>Servicezeit</th>
-                <th>Kosten</th>
-                <th>Zahlung</th>
-                <th>Termin</th>
+                <th class="d-none d-lg-table-cell">Servicezeit</th>
+                <th class="d-none d-md-table-cell">Kosten</th>
+                <th class="d-none d-lg-table-cell">Zahlung</th>
+                <th class="d-none d-lg-table-cell">Termin</th>
                 <th></th>
             </tr>
         </thead>
@@ -67,15 +68,15 @@
                     && order.serviceName?.includes(filterByService)
                     && order.paymentMethod?.includes(filterByPaymentMethod)
                     && order.orderStatus?.includes(filterByStatus)">
-                    <td>{{order.employeeName}}</td>
+                    <td class="d-none d-md-table-cell">{{order.employeeName}}</td>
                     <td>{{order.customerName}}</td>
                     <td>{{order.serviceName}}</td>
-                    <td>{{order.date | date:'dd.MM.yyyy HH:mm'}}</td>
+                    <td class="d-none d-md-table-cell">{{order.date | date:'dd.MM.yyyy HH:mm'}}</td>
                     <td>{{order.orderStatus}}</td>
-                    <td>{{order.timeOfService}}</td>
-                    <td>{{order.totalcost}}</td>
-                    <td>{{order.paymentMethod}}</td>
-                    <td>{{order.appointment | date:'dd.MM.yyyy HH:mm'}}</td>
+                    <td class="d-none d-lg-table-cell">{{order.timeOfService}}</td>
+                    <td class="d-none d-md-table-cell">{{order.totalcost}}</td>
+                    <td class="d-none d-lg-table-cell">{{order.paymentMethod}}</td>
+                    <td class="d-none d-lg-table-cell">{{order.appointment | date:'dd.MM.yyyy HH:mm'}}</td>
                     <td><button class="btn btn-primary" 
                             [routerLink]="['/edit-order',order.orderId]"
                             routerLinkActive="router-link-active">Edit</button>
@@ -84,4 +85,5 @@
             </ng-container>
         </tbody>
     </table>
+    </div>
 </div>

@@ -46,20 +46,21 @@
     </div>
 
     <br>
+    <div class="table-responsive">
     <table class="table">
         <thead>
             <tr >
-                <th>Bearbeiter</th>
+                <th class="d-none d-md-table-cell">Bearbeiter</th>
                 <th>Kunde</th>
-                <th>Service</th>
-                <th>Datum</th>
-                <th>Zahlungsart</th>
+                <th class="d-none d-md-table-cell">Service</th>
+                <th class="d-none d-md-table-cell">Datum</th>
+                <th class="d-none d-lg-table-cell">Zahlungsart</th>
                 <th>Brutto</th>
-                <th>MwStr.</th>
-                <th>Netto</th>
-                <th>Referenz Nr.</th>
+                <th class="d-none d-lg-table-cell">MwStr.</th>
+                <th class="d-none d-lg-table-cell">Netto</th>
+                <th class="d-none d-lg-table-cell">Referenz Nr.</th>
                 <th>Status</th>
-
+                <th></th>
             </tr>
         </thead>
         <tbody> 
@@ -70,15 +71,15 @@
                          && invoice.serviceName.includes(filterByService)
                          && invoice.paymentMethod.includes(filterByPaymentMethod)
                          && invoice.paymentStatus.includes(filterByStatus)">
-                    <td>{{invoice.employeeName}}</td>
+                    <td class="d-none d-md-table-cell">{{invoice.employeeName}}</td>
                     <td>{{invoice.customerName}}</td>
-                    <td>{{invoice.serviceName}}</td>
-                    <td>{{invoice.invoiceDate | date:'dd.MM.yyyy '}}</td>
-                    <td>{{invoice.paymentMethod}}</td>
+                    <td class="d-none d-md-table-cell">{{invoice.serviceName}}</td>
+                    <td class="d-none d-md-table-cell">{{invoice.invoiceDate | date:'dd.MM.yyyy '}}</td>
+                    <td class="d-none d-lg-table-cell">{{invoice.paymentMethod}}</td>
                     <td>{{invoice.totalAmount}}</td>
-                    <td>{{invoice.taxAmount}}</td>
-                    <td>{{invoice.netAmount}}</td>
-                    <td>{{invoice.paymentReference}}</td>
+                    <td class="d-none d-lg-table-cell">{{invoice.taxAmount}}</td>
+                    <td class="d-none d-lg-table-cell">{{invoice.netAmount}}</td>
+                    <td class="d-none d-lg-table-cell">{{invoice.paymentReference}}</td>
                     <td>{{invoice.paymentStatus}}</td>
                     <td><button  class="btn btn-primary"  
                         [routerLink]="['/edit-invoice',invoice.invoiceId]"
@@ -89,4 +90,5 @@
             </ng-container>     
         </tbody>
     </table>
+    </div>
 </div>

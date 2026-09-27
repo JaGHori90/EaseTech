@@ -1,10 +1,20 @@
-<nav id="sidebar" class="navbar bg-body-tertiary vh-100 flex-column justify-content-start">
-    <div class="container-fluid justify-content-center p-1">
-        <a [routerLink]="'/dashboard'" class="navbar-brand h1 fw-bold text-black mb-3">
-            Dashboard 
+<!--
+  Responsives Seitenmenü:
+  - ab 768 px (md) steht es fest links,
+  - darunter ist es ein Bootstrap-Offcanvas, das über den ☰-Button geöffnet wird.
+-->
+<nav id="sidebar" class="offcanvas-md offcanvas-start bg-body-tertiary" tabindex="-1" aria-labelledby="sidebarLabel">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title fw-bold" id="sidebarLabel">Menü</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Schließen"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column p-0">
+    <div class="container-fluid justify-content-center p-1 text-center d-none d-md-block">
+        <a [routerLink]="'/dashboard'" class="navbar-brand h1 fw-bold text-black d-inline-block my-3">
+            Dashboard
         </a>
     </div>
-    <ul class="nav flex-column w-100 px-3">
+    <ul class="nav flex-column w-100 px-3 py-2" data-bs-dismiss="offcanvas" data-bs-target="#sidebar">
         <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.adminOrEmployee">
             <a [routerLink]="'/overview-user'" class="nav-link" routerLinkActive="active">Benutzer Übersicht</a>
         </li>
@@ -39,10 +49,15 @@
             <a [routerLink]="'/reset-password'" class="nav-link" routerLinkActive="active">Passwort zurücksetzen</a>
         </li> 
     </ul>
+    </div>
 </nav>
 <div id="main">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid justify-content-end px-3 py-1">
+            <button class="btn btn-outline-secondary me-auto d-md-none" type="button"
+                    data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar" aria-label="Menü öffnen">
+                <i class="bi bi-list"></i> Menü
+            </button>
             <button class="btn btn-outline-danger" (click)="onLogout()">Abmelden</button>
             <button class="btn btn-dark ms-3" [routerLink]="'/page/home'">Startseite</button>
         </div>

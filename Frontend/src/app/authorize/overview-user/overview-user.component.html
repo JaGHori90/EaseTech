@@ -22,18 +22,19 @@
     </div>
     <br>
 
+    <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
                 <th>Role</th>
                 <th>Vorname</th>
                 <th>Nachname</th>
-                <th>Geschlecht</th>
-                <th>Stadt</th>
-                <th>PLZ</th>
-                <th>Strasse</th>
-                <th>TelefonNummer</th>
-                <th>Geburtsdatum</th>
+                <th class="d-none d-lg-table-cell">Geschlecht</th>
+                <th class="d-none d-md-table-cell">Stadt</th>
+                <th class="d-none d-lg-table-cell">PLZ</th>
+                <th class="d-none d-lg-table-cell">Strasse</th>
+                <th class="d-none d-md-table-cell">TelefonNummer</th>
+                <th class="d-none d-lg-table-cell">Geburtsdatum</th>
                 <th>Aktionen</th>
             </tr>
         </thead>
@@ -47,12 +48,12 @@
                     <td>{{user.role}}</td>
                     <td>{{ user.firstName }}</td>
                     <td>{{ user.lastName }}</td>
-                    <td>{{ user.gender }}</td>
-                    <td>{{ user.city }}</td>
-                    <td>{{ user.zipCode }}</td>
-                    <td>{{ user.address }}</td>
-                    <td>{{ user.phoneNumber }}</td>
-                    <td>{{ user.birthday | date:'dd.MM.yyyy' }}</td>
+                    <td class="d-none d-lg-table-cell">{{ user.gender }}</td>
+                    <td class="d-none d-md-table-cell">{{ user.city }}</td>
+                    <td class="d-none d-lg-table-cell">{{ user.zipCode }}</td>
+                    <td class="d-none d-lg-table-cell">{{ user.address }}</td>
+                    <td class="d-none d-md-table-cell">{{ user.phoneNumber }}</td>
+                    <td class="d-none d-lg-table-cell">{{ user.birthday | date:'dd.MM.yyyy' }}</td>
                     <td>
                         <a class="btn btn-primary" [routerLink]="['/edit-user', user.id]">Edit</a>
                     </td>
@@ -60,4 +61,5 @@
             </ng-container>
         </tbody>
     </table>
+    </div>
 </div>
