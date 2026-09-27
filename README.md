@@ -1,101 +1,85 @@
 # EaseTech
 
-Ein Diplomprojekt aus dem Jahr 2025 – eine Plattform für technischen Support:
-Kunden buchen Hilfe (z. B. PC, Smartphone, WLAN), Mitarbeiter bearbeiten Aufträge,
-Rechnungen und Kontaktanfragen und bieten Video-Support an.
+Eine Full-Stack-Webanwendung für **technischen Support**: Kunden buchen Hilfe bei Computer-, TV- oder Drucker-Problemen, starten einen **Video-Call** mit einem freien Mitarbeiter oder hinterlassen eine Rückruf-Anfrage. Mitarbeiter und Admins verwalten im Dashboard Aufträge, Rechnungen, Anfragen und Benutzer.
 
-| Teil | Technologie | Ordner |
+Entstanden 2025 als **Diplomprojekt**, danach von mir überarbeitet und veröffentlicht: neue Datenbank (PostgreSQL/Neon), geschlossene Sicherheitslücken, automatisierte Tests, CI und Hosting auf Azure und Vercel.
+
+🌐 **Live:** [ease-tech-ejts.vercel.app](https://ease-tech-ejts.vercel.app)
+
+## Architektur
+
+```
+┌──────────────────┐   HTTPS / JSON    ┌──────────────────┐   EF Core    ┌──────────────┐
+│  Angular 19      │   (JWT-Bearer)    │  ASP.NET Core 8  │  (Npgsql)    │  PostgreSQL  │
+│  Frontend        ├──────────────────▶│  Web API         ├─────────────▶│  (Neon,      │
+│  (Vercel)        │                   │  (Azure App      │              │  serverless) │
+└────────┬─────────┘                   │  Service)        │              └──────────────┘
+         │                             └────────┬─────────┘
+         │  WebRTC Video                        │ Token für Video-Call
+         ▼                                      ▼
+┌──────────────────────────────────────────────────────────┐
+│                  GetStream Video (Cloud)                  │
+└──────────────────────────────────────────────────────────┘
+```
+
+## Komponenten
+
+| Ordner | Was | Tech-Stack |
 |---|---|---|
-| Backend | ASP.NET Core 8 (Minimal APIs), EF Core, ASP.NET Identity, JWT | [`Api/`](Api) |
-| Datenbank | PostgreSQL – gehostet auf [Neon](https://neon.tech) | – |
-| Frontend | Angular 19, Bootstrap | [`Frontend/`](Frontend) |
-| Video-Call | GetStream Video | – |
-| Tests | MSTest + WebApplicationFactory (API), Jasmine/Karma (Angular), Playwright (E2E) | `Api/APITest`, `Frontend/src/**/*.spec.ts`, `Frontend/e2e` |
+| `Api/Api/` | REST-API mit Minimal APIs: Benutzer & Rollen, Services, Aufträge, Rechnungen, Kontaktanfragen, Video-Calls | ASP.NET Core 8, EF Core, ASP.NET Identity, JWT, Npgsql, Swagger |
+| `Api/APITest/` | Integrationstests – startet die komplette API im Speicher mit einer In-Memory-Datenbank | MSTest, WebApplicationFactory |
+| `Frontend/` | Web-Oberfläche: Startseite, Buchung, Kontakt, Video-Call und rollenbasiertes Dashboard | Angular 19 (Standalone Components), Bootstrap 5, ngx-toastr, GetStream Video SDK |
+| `Frontend/e2e/` | End-to-End-Tests im Browser | Playwright |
+| `.github/workflows/` | CI: Build, Tests und Migrations-Check bei jedem Push | GitHub Actions |
+| `docs/` | Roadmap | Markdown |
 
-Die geplanten nächsten Schritte stehen in [`docs/ROADMAP.md`](docs/ROADMAP.md).
+## Features
 
----
+- **Drei Rollen** – `Customer`, `Employee`, `Admin` – mit serverseitiger Rechteprüfung: Kunden sehen nur ihre eigenen Aufträge und Rechnungen, nur Admins legen Mitarbeiter an.
+- **Buchung von Hilfe** direkt von der Startseite; der Preis wird **serverseitig** aus Minutenpreis × Dauer berechnet.
+- **Video-Support**: Mitarbeiter schalten sich im Dashboard als verfügbar, Kunden werden mit einem freien Mitarbeiter verbunden (GetStream Video, Token wird von der API ausgestellt).
+- **Aufträge & Rechnungen**: Mitarbeiter bearbeiten den Status, abgeschlossene Aufträge erzeugen eine Rechnung mit automatisch berechneter Umsatzsteuer (20 %).
+- **Kontaktformular** ohne Login – Anfragen landen im Dashboard und werden einem Mitarbeiter zugewiesen.
+- **Sicherheit**: JWT mit begrenzter Laufzeit, Konto-Sperre nach 5 Fehlversuchen, Passwort-Richtlinie, Secrets nur über User-Secrets bzw. Umgebungsvariablen.
+- **Automatische Datenbank-Einrichtung** beim Start: Migrationen, Rollen und optional ein erster Admin.
+- **Tests & CI**: 63 API-Tests und 27 Angular-Unit-Tests laufen bei jedem Push über GitHub Actions.
 
-## Voraussetzungen
+## Lokal aufsetzen
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- [Node.js 22](https://nodejs.org) und [pnpm](https://pnpm.io) (`npm i -g pnpm`)
-- Eine PostgreSQL-Datenbank – am einfachsten ein kostenloses Projekt auf **Neon**
-  (alternativ lokal per Docker: `docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres:16`)
+**Voraussetzungen:** [.NET 8 SDK](https://dotnet.microsoft.com/download), [Node.js 22](https://nodejs.org) mit [pnpm](https://pnpm.io) und eine PostgreSQL-Datenbank (z. B. kostenlos bei [Neon](https://neon.tech) oder lokal per Docker).
 
-## 1. Datenbank auf Neon anlegen
-
-1. Auf <https://console.neon.tech> ein Projekt erstellen (Region z. B. *Frankfurt*).
-2. Unter **Connect** den Connection String im Format **.NET** kopieren. Er sieht so aus:
-   ```
-   Host=ep-xxx-123456.eu-central-1.aws.neon.tech;Database=neondb;Username=neondb_owner;Password=***;SSL Mode=Require
-   ```
-3. Tipp: Für Entwicklung und Produktion zwei **Branches** in Neon verwenden (z. B. `dev` und `main`) –
-   so testest du Migrationen, ohne echte Daten zu gefährden.
-
-## 2. Secrets konfigurieren (niemals ins Git!)
-
-Alle geheimen Werte stehen **nicht** in `appsettings.json`, sondern in den
-[User-Secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets) (lokal)
-bzw. in Umgebungsvariablen (Server).
+### API
 
 ```bash
 cd Api/Api
-dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=...;Database=neondb;Username=...;Password=...;SSL Mode=Require"
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=...;Database=...;Username=...;Password=...;SSL Mode=Require"
 dotnet user-secrets set "AppSettings:JWT_Secret" "$(openssl rand -base64 48)"
-dotnet user-secrets set "GetStream:ApiKey" "<dein Stream API Key>"
-dotnet user-secrets set "GetStream:SecretKey" "<dein Stream Secret>"
-
-# Optional: ersten Admin automatisch anlegen
-dotnet user-secrets set "Seed:AdminEmail" "<deine E-Mail>"
-dotnet user-secrets set "Seed:AdminPassword" "<sicheres Passwort>"
-
-# Optional (nur lokal): Passwort für die Demo-Benutzer
-dotnet user-secrets set "Seed:DemoPassword" "<sicheres Passwort>"
+dotnet run            # http://localhost:5001  ·  Swagger: /swagger
 ```
 
-Passwörter brauchen mindestens 8 Zeichen mit Groß- und Kleinbuchstaben, Ziffer und Sonderzeichen.
+Beim ersten Start werden die Tabellen und Rollen automatisch angelegt.
 
-Auf einem Server heißen die Umgebungsvariablen gleich, nur mit `__` statt `:`,
-z. B. `ConnectionStrings__DefaultConnection`, `AppSettings__JWT_Secret`.
+<details>
+<summary>Alle Einstellungen</summary>
+
+Lokal über `dotnet user-secrets`, auf dem Server als Umgebungsvariablen (`:` wird dort zu `__`, z. B. `AppSettings__JWT_Secret`).
 
 | Schlüssel | Pflicht | Bedeutung |
 |---|---|---|
-| `ConnectionStrings:DefaultConnection` | ✅ | PostgreSQL/Neon Connection String |
-| `AppSettings:JWT_Secret` | ✅ | Schlüssel zum Signieren der Tokens, **mind. 32 Zeichen** – sonst startet die API nicht |
+| `ConnectionStrings:DefaultConnection` | ✅ | PostgreSQL Connection String (ADO.NET-Format) |
+| `AppSettings:JWT_Secret` | ✅ | Schlüssel für die Tokens, mind. 32 Zeichen – sonst startet die API nicht |
 | `AppSettings:TokenLifetimeHours` | | Gültigkeit eines Logins (Standard 12 h) |
 | `Cors:AllowedOrigins` | | Erlaubte Frontend-URLs (Standard `http://localhost:4200`) |
 | `Database:MigrateOnStartup` | | Migrationen beim Start anwenden (in *Development* an) |
-| `Seed:AdminEmail` / `Seed:AdminPassword` | | Legt beim Start einen Admin an, falls es ihn noch nicht gibt |
-| `Seed:DemoData` | | Demo-Services und -Benutzer (in *Development* an) |
-| `Seed:DemoPassword` | | Passwort der Demo-Benutzer – ohne diesen Wert werden keine Demo-Benutzer angelegt |
-| `GetStream:ApiKey` / `GetStream:SecretKey` | für Video | Zugangsdaten von <https://getstream.io> |
+| `Seed:AdminEmail` / `Seed:AdminPassword` | | Legt beim Start einen Admin an |
+| `Seed:DemoData` / `Seed:DemoPassword` | | Demo-Services und Demo-Benutzer, nur lokal |
+| `GetStream:ApiKey` / `GetStream:SecretKey` | für Video | Zugangsdaten von [getstream.io](https://getstream.io) |
 
-## 3. Backend starten
+Passwörter: mind. 8 Zeichen mit Groß- und Kleinbuchstaben, Ziffer und Sonderzeichen.
 
-```bash
-cd Api/Api
-dotnet run            # http://localhost:5001, Swagger: http://localhost:5001/swagger
-```
+</details>
 
-Beim Start (Development) werden automatisch
-- die Migrationen angewendet,
-- die Rollen `Admin`, `Employee`, `Customer` angelegt,
-- Demo-Services angelegt und – falls `Seed:DemoPassword` gesetzt ist – je ein Demo-Benutzer pro Rolle
-  (`admin@easetech.local`, `employee@easetech.local`, `customer@easetech.local`) mit diesem Passwort.
-
-> ⚠️ Demo-Daten nur lokal verwenden. In Produktion `Seed:DemoData` auf `false` lassen.
-
-### Migrationen
-
-```bash
-dotnet tool install -g dotnet-ef --version 8.0.10
-cd Api/Api
-dotnet ef migrations add <Name>        # nach einer Änderung an den Models
-dotnet ef database update              # nutzt ConnectionStrings__DefaultConnection
-```
-
-## 4. Frontend starten
+### Frontend
 
 ```bash
 cd Frontend
@@ -103,23 +87,65 @@ pnpm install
 pnpm start            # http://localhost:4200
 ```
 
-## 5. Tests
+Die API-Adresse steht in `src/environments/environment.development.ts` (lokal) bzw. `environment.ts` (Build für die Produktion).
+
+### Tests
 
 ```bash
-# Backend – startet die API im Speicher mit einer In-Memory-Datenbank
-cd Api && dotnet test
-
-# Frontend – Unit-Tests (einmalig, headless)
-cd Frontend && pnpm run test:ci
-
-# E2E (Backend + Frontend müssen laufen)
-cd Frontend && npx playwright test
+cd Api && dotnet test                 # API-Integrationstests
+cd Frontend && pnpm run test:ci       # Angular-Unit-Tests (headless)
+cd Frontend && pnpm run e2e           # Playwright (API + Frontend müssen laufen)
 ```
 
-Bei jedem Push auf `develop` oder `main` laufen Build und Tests automatisch über
-GitHub Actions ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
+## Was ich überarbeitet habe
 
-## Branch-Strategie
+Das Diplomprojekt lief ursprünglich nur lokal mit SQL Server. Für die Veröffentlichung habe ich:
 
-- `develop` – laufende Entwicklung, alle Änderungen landen zuerst hier
-- `main` – veröffentlichte, stabile Version (nur per Merge aus `develop`)
+| Bereich | Vorher | Jetzt |
+|---|---|---|
+| Datenbank | SQL Server LocalDB (nur Windows) | PostgreSQL auf Neon, neue Migration, UTC-Zeitstempel |
+| Secrets | JWT-Secret und API-Keys im Code | User-Secrets / Umgebungsvariablen, Start bricht ohne Secret ab |
+| Registrierung | Jeder konnte sich selbst als **Admin** registrieren | Öffentlich nur `Customer`, Mitarbeiter/Admins nur durch Admins |
+| Datenzugriff | Jeder eingeloggte Benutzer konnte fremde Profile, Aufträge und Rechnungen lesen/ändern | Nur eigene Daten; Listen nur für Mitarbeiter |
+| Bestellungen | Preis und Status kamen vom Client | Server setzt Kunde, Status und berechnet den Preis |
+| Login | Token 1 Monat gültig, unbegrenzte Versuche | 12 h, Sperre nach 5 Fehlversuchen |
+| Tests | 4 Tests, nur mit lokaler Datenbank lauffähig | 63 API- + 27 Angular-Tests, laufen überall |
+| Repository | `bin/`, `obj/`, Test-Ergebnisse versioniert | bereinigt, `.gitignore`, CI mit GitHub Actions |
+| Frontend | Build schlug fehl, 31 Pakete (viele ungenutzt), 2,4 MB Bundle | Build repariert, 15 Pakete, 1,4 MB Bundle |
+| Hosting | – | API auf Azure App Service, Frontend auf Vercel |
+
+## Roadmap
+
+Details und offene Entscheidungen in [`docs/ROADMAP.md`](docs/ROADMAP.md).
+
+- [ ] **E-Mail-Versand**: „Passwort vergessen“, E-Mail-Bestätigung, Benachrichtigungen bei neuen Anfragen, Auftragsstatus und Rechnungen
+- [ ] **Einstellungen im Dashboard**: Öffnungszeiten pro Wochentag, Feiertage, Firmendaten, Steuersatz und Services statt fest im Code
+- [ ] **Video-Call verbessern**: Warteschlange, Video-Termine zu Aufträgen, Verfügbarkeit gekoppelt an die Öffnungszeiten
+- [ ] **Mehr Tests**: Integrationstests gegen echtes PostgreSQL (Testcontainers), Playwright-E2E in der CI
+- [ ] **Upgrade** auf .NET 10 (LTS) und aktuelles Angular vor dem Support-Ende von .NET 8 (11/2026)
+- [ ] **Performance**: Lazy Loading der Angular-Routen
+- [ ] **Automatisches Deployment** der API per GitHub Actions
+- [ ] Impressum & Datenschutzerklärung
+
+## Über dieses Projekt
+
+Ich bin Reza Jaghori. EaseTech war mein Diplomprojekt – eine Plattform, die Menschen schnell und unkompliziert bei technischen Problemen hilft, auf Wunsch per Video-Call.
+
+Nach dem Abschluss wollte ich das Projekt nicht in der Schublade liegen lassen, sondern so weiterentwickeln, wie man es in einem echten Team tun würde: Sicherheitslücken finden und schließen, automatisierte Tests schreiben, eine Cloud-Datenbank anbinden, CI einrichten und die Anwendung tatsächlich online bringen. Dabei ist mir klar geworden, wie groß der Schritt von „läuft auf meinem Rechner“ zu „läuft sicher und nachvollziehbar im Internet“ ist.
+
+**Was ich dabei gelernt habe / gerade lerne:**
+- **Sicherheit ist Aufgabe des Servers**: Ein ausgeblendeter Button im Frontend schützt nichts – jede Berechtigung muss die API prüfen. Ein Teil der Tests existiert genau dafür.
+- **Secrets gehören nie ins Repository**: auslagern mit User-Secrets und Umgebungsvariablen, und was einmal öffentlich war, gilt als bekannt und muss ausgetauscht werden.
+- **Testbarkeit**: Integrationstests mit `WebApplicationFactory` und In-Memory-Datenbank, damit die Tests ohne eigene Datenbank überall laufen – auch in der CI.
+- **Deployment in der Praxis**: Azure App Service, Vercel und Neon einrichten, App Settings, CORS, SPA-Routing – und lernen, eine 404- oder 500-Fehlermeldung systematisch einzugrenzen.
+- **Sauber mit Git arbeiten**: Branch-Strategie (`develop` → `main`), aussagekräftige Commits, `.gitignore`, Merge-Konflikte.
+
+**Warum Neon, Azure und Vercel:** Alle drei haben einen brauchbaren Free-Tier, das Projekt kostet also nichts. Azure passt gut zum .NET-Ökosystem, Neon bietet serverloses PostgreSQL ohne eigene Server, und Vercel baut das Angular-Frontend bei jedem Push automatisch.
+
+Ich bin auf Jobsuche als Entwickler im .NET-/C#- und Angular-Umfeld, im Raum Linz/Steyr.
+
+Siehe auch mein zweites Projekt: [Dashboard-ESP32](https://github.com/JaGHori90/Dashboard-ESP32) – ein IoT-Dashboard vom Sensor bis zur Desktop-App.
+
+## Lizenz
+
+Dieses Projekt ist unter der [MIT-Lizenz](LICENSE) veröffentlicht.
