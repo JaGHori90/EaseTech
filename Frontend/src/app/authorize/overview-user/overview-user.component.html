@@ -1,0 +1,63 @@
+<div class="container">
+    <h1 class="text-center">Benutzer Übersicht</h1>
+
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Vorname:</label>
+            <input type="text" class="form-control" [(ngModel)]="filterByFirtName" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Nachname:</label>
+            <input type="text" class="form-control" [(ngModel)]="filterByLastName" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Sortieren nach Geschlecht</label>
+            <select class="form-select" [(ngModel)]="filterByGender">
+                <option value="">Alle</option>
+                <option value="Männlich">Männlich</option>
+                <option value="Weiblich">Weiblich</option>
+                <option value="Divers">Divers</option>
+            </select>
+        </div>
+    </div>
+    <br>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Role</th>
+                <th>Vorname</th>
+                <th>Nachname</th>
+                <th>Geschlecht</th>
+                <th>Stadt</th>
+                <th>PLZ</th>
+                <th>Strasse</th>
+                <th>TelefonNummer</th>
+                <th>Geburtsdatum</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let user of UserProfiles">
+                <tr *ngIf="user.firstName.toLocaleLowerCase().includes(filterByFirtName.toLocaleLowerCase())
+                    && user.lastName.toLocaleLowerCase().includes(filterByLastName.toLocaleLowerCase())
+                    && user.gender.includes(filterByGender)
+                    && user.role.toLocaleLowerCase().includes(filterByRole.toLocaleLowerCase())"
+                    [ngClass]="{ 'table-danger': user.city === ''||user.zipCode === ''||user.address === ''||user.phoneNumber === '' }">
+                    <td>{{user.role}}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.gender }}</td>
+                    <td>{{ user.city }}</td>
+                    <td>{{ user.zipCode }}</td>
+                    <td>{{ user.address }}</td>
+                    <td>{{ user.phoneNumber }}</td>
+                    <td>{{ user.birthday | date:'dd.MM.yyyy' }}</td>
+                    <td>
+                        <a class="btn btn-primary" [routerLink]="['/edit-user', user.id]">Edit</a>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</div>

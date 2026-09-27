@@ -1,0 +1,89 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Sasan JAGHORI\\source\\repos\\JaGHori90\\Maturaproject\\EaseTech\\Api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{81332785-1FD4-488B-8775-12D3DA4E8754}|Api\\Api.csproj|c:\\users\\sasan jaghori\\source\\repos\\jaghori90\\maturaproject\\easetech\\api\\api\\userdetailsfortest.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{81332785-1FD4-488B-8775-12D3DA4E8754}|Api\\Api.csproj|solutionrelative:api\\userdetailsfortest.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81332785-1FD4-488B-8775-12D3DA4E8754}|Api\\Api.csproj|c:\\users\\sasan jaghori\\source\\repos\\jaghori90\\maturaproject\\easetech\\api\\api\\controllers\\orderendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81332785-1FD4-488B-8775-12D3DA4E8754}|Api\\Api.csproj|solutionrelative:api\\controllers\\orderendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81332785-1FD4-488B-8775-12D3DA4E8754}|Api\\Api.csproj|c:\\users\\sasan jaghori\\source\\repos\\jaghori90\\maturaproject\\easetech\\api\\api\\controllers\\streamendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81332785-1FD4-488B-8775-12D3DA4E8754}|Api\\Api.csproj|solutionrelative:api\\controllers\\streamendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81332785-1FD4-488B-8775-12D3DA4E8754}|Api\\Api.csproj|c:\\users\\sasan jaghori\\source\\repos\\jaghori90\\maturaproject\\easetech\\api\\api\\controllers\\invoiceendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81332785-1FD4-488B-8775-12D3DA4E8754}|Api\\Api.csproj|solutionrelative:api\\controllers\\invoiceendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "InvoiceEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Sasan JAGHORI\\source\\repos\\JaGHori90\\Maturaproject\\EaseTech\\Api\\Api\\Controllers\\InvoiceEndpoints.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\InvoiceEndpoints.cs",
+              "ToolTip": "C:\\Users\\Sasan JAGHORI\\source\\repos\\JaGHori90\\Maturaproject\\EaseTech\\Api\\Api\\Controllers\\InvoiceEndpoints.cs",
+              "RelativeToolTip": "Api\\Controllers\\InvoiceEndpoints.cs",
+              "ViewState": "AgIAAJEAAAAAAAAAAAAcwKMAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-14T10:28:08.175Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OrderEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Sasan JAGHORI\\source\\repos\\JaGHori90\\Maturaproject\\EaseTech\\Api\\Api\\Controllers\\OrderEndpoints.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\OrderEndpoints.cs",
+              "ToolTip": "C:\\Users\\Sasan JAGHORI\\source\\repos\\JaGHori90\\Maturaproject\\EaseTech\\Api\\Api\\Controllers\\OrderEndpoints.cs",
+              "RelativeToolTip": "Api\\Controllers\\OrderEndpoints.cs",
+              "ViewState": "AgIAAKgAAAAAAAAAAAAmwLkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-14T10:27:30.111Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "StreamEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Sasan JAGHORI\\source\\repos\\JaGHori90\\Maturaproject\\EaseTech\\Api\\Api\\Controllers\\StreamEndpoints.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\StreamEndpoints.cs",
+              "ToolTip": "C:\\Users\\Sasan JAGHORI\\source\\repos\\JaGHori90\\Maturaproject\\EaseTech\\Api\\Api\\Controllers\\StreamEndpoints.cs",
+              "RelativeToolTip": "Api\\Controllers\\StreamEndpoints.cs",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAcwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-29T13:35:18.616Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserDetailsForTest.json",
+              "DocumentMoniker": "C:\\Users\\Sasan JAGHORI\\source\\repos\\JaGHori90\\Maturaproject\\EaseTech\\Api\\Api\\UserDetailsForTest.json",
+              "RelativeDocumentMoniker": "Api\\UserDetailsForTest.json",
+              "ToolTip": "C:\\Users\\Sasan JAGHORI\\source\\repos\\JaGHori90\\Maturaproject\\EaseTech\\Api\\Api\\UserDetailsForTest.json",
+              "RelativeToolTip": "Api\\UserDetailsForTest.json",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAFYAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-29T13:21:30.312Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

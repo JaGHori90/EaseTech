@@ -1,0 +1,68 @@
+
+src
+|__ enviroments
+|   |__ enviroments.ts | enviroments.development.ts
+|__ images
+|___app   
+    |__ pages
+    |    |__ home (cmp. folder)            
+    |    |__ service (cmp. folder) 
+    |    |__ contact (cmp. folder)
+    |    |__ page.component.ts |.html   
+    |
+    |___ core
+    |   |__ footer (cmp. folder)
+    |   |__ header (cmp. folder)
+    |
+    |___ user
+    |   |__ user.component.ts |.html
+    |   |__ login (cmp. folder)
+    |   |__ registration (cmp. folder)
+    |   |__ profile(cmp. folder)
+    |__ stream
+    |   |__ call (cmp.folder)
+    |   |__ participant (cmp. folder)
+    |
+    |__ dashboard (cmp. folder)
+    |
+    |__ forbiden (cmp.folder)
+    |
+    |__ authorize
+    |   |__ create-order (cmp.folder)
+    |   |__ edit-order (cmp. folder)
+    |   |__ edit-invoice (cmp. folder)
+    |   |__ edit-request (cmp.folder)
+    |   |__ edit-user (cmp.folder)
+    |   |__ overview-order (cmp.folder)
+    |   |__ overview-request (cmp.folder)
+    |   |__ overview-user (cmp.folder)
+    |   |__ overview-invoice (cmd.folder)
+    |   |__ profile-mangement (cmp.folder)
+    |   |__ register-user (cmp.folder)
+    |   |__ my-invoice (cmp.folder)
+    |   |__ my-order (cmp.folder)
+    |   |__ video-call (cmp.folder)
+    |   |__ rest-password (cmp.folder)
+    |   |__ password-change (cmp.folder)
+    |
+    |__ layout
+    |   |__ main-layout (cmp.folder)
+    |__ shared
+        |__ auth.guard.ts
+        |__ auth. intercptor.ts
+        |__ constants.ts
+        |__ utils
+        |   |__ claimRe -utils.ts
+        |__ directives
+        |   |__ hide-if-claims-not-met.directive.ts
+        |__ pipes
+        |    |__ fist-key.pipe.ts
+        |__ services
+            |__ user.service.ts
+            |__ auth.service.ts
+            |__ call-api.service.ts
+            |__ call.service.ts
+            |__ invoice.service.ts
+            |__ order.service.ts
+            |__ request.service.ts
+            |__ constants.ts

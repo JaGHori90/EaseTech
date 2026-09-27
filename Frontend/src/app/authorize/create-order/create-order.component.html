@@ -1,0 +1,104 @@
+<div class="container" style="max-width: 700px; margin: auto; padding: 20px;">
+  <h1 class="text-center mb-4">Bestellung erstellen</h1>
+
+  <div class="row">
+    <div class="col-md-6 bg-body-tertiary">
+      <p>Bearbeiter: {{employeeName}}</p>
+    </div>
+
+    <div class="col-md-6 bg-body-tertiary">
+      <p>Datum: {{date |date:'dd.MM.yyyy'}}</p>
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row g-3">
+
+      <div class="col-md-12 ">
+        <label for="customerId" class="form-label">Kunde Auswählen:</label>
+        <select class="form-select" formControlName="customerId">
+          <option class="dropdown-item" *ngFor="let customer of customers" [value]="customer.id">
+            {{ customer.firstName }} {{ customer.lastName }}
+          </option>
+        </select>
+        <div class="error-feedback"
+          *ngIf="hasDisplayError('customerId') && form.controls['customerId'].hasError('required')">
+          Auswahl von Kunde ist erforderlich.
+        </div>
+      </div>
+
+      <div class="col-md-6 ">
+        <label for="serviceId" class="form-label">Service Auswählen:</label>
+        <select class="form-select "  formControlName="serviceId">
+          <option class="dropdown-item" *ngFor="let s of services" [ngValue]="s.serviceId">
+            {{ s.serviceName }}
+          </option>
+        </select>
+        <div class="error-feedback"
+          *ngIf="hasDisplayError('serviceId') && form.controls['serviceId'].hasError('required')">
+          Auswahl von Serivce ist erforderlich.
+        </div>
+      </div>
+
+      <div class="col-md-6 ">
+        <label for="orderStatus" class="form-label">Status Auswählen:</label>
+        <select class="form-select" formControlName="orderStatus" placeholder="orderStatus">
+          <option value="Angerichtet">Bestellung angerichtet</option>
+          <option value="TerminGeplant">Termin Geplant</option>
+          <option value="InBearbeitung">In Bearbeitung</option>
+          <option value="Abgeschlossen">Abgeschlossen</option>
+          <option value="Storniert">Storniert</option>
+          <option value="Verzögert">Verzögert</option>
+        </select>
+        <div class="error-feedback"
+          *ngIf="hasDisplayError('orderStatus') && form.controls['orderStatus'].hasError('required')">
+          Status ist erforderlich.
+        </div>
+      </div>
+
+      <div class="col-md-6 ">
+        <label for="timeOfService" class="form-label">Zeit in Minute:</label>
+        <input type="number" placeholder="Time in Minute" class="form-control" formControlName="timeOfService">
+        <div class="error-feedback"
+          *ngIf="hasDisplayError('timeOfService') && form.controls['timeOfService'].hasError('required')">
+          Zeitangabe ist erforderlich.
+        </div>
+        <div class="error-feedback" *ngIf="form.controls['timeOfService'].hasError('pattern')">
+          Zeitangabe ist ungültig.
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="totalCost" class="form-label">Gesamte Kosten EURO:</label>
+        <input readOnly type="number" readonly class="form-control bg-body-tertiary" (change)="updateTotalCost()"
+  formControlName="totalCost">
+      </div>
+
+      <div class="col-md-6">
+        <label for="appointment" class="form-label">Termin Auswählen:</label>
+        <input type="datetime-local" class="form-control" formControlName="appointment">
+      </div>
+
+      <div class="col-md-6 ">
+        <label for="paymentMethod" class="form-label">Zahlungsoption:</label>
+        <select class="form-select" formControlName="paymentMethod" placeholder="Zahlungsoption">
+          <option value="Bar">In Bar </option>
+          <option value="Rechnung">Auf Rechnung</option>
+          <option value="Kreditkarte">Mit Kreditkart</option>
+          <option value="Paypal">PayPal</option>
+        </select>
+        <div class="error-feedback"
+          *ngIf="hasDisplayError('paymentMethod') && form.controls['paymentMethod'].hasError('required')">
+          Zeitangabe ist erforderlich.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Speichern</button>
+    </div>
+
+  </form>
+
+</div>

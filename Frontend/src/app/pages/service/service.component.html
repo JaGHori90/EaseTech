@@ -1,0 +1,40 @@
+<div class="container mb-5 py-2">
+  <div class="card bg-black  mt-2 d-flex justify-content-center" *ngIf="noCallisFree">
+    <h1 class=" text-center text-warning">Bitte warten: Keine Mitarbeiter ist derzeit frei! </h1><br>
+    <h3 class=" text-center text-info">Der Videoanruf startet automatisch, sobald eine Mitarbeiterin oder ein Mitarbeiter verfügbar ist.</h3>
+   
+  </div>
+  <div class="row">
+    <div class="card col-12 mt-3 mb-3" *ngIf="lastOrder && lastOrder.length">
+      <h4 class="card-header text-center">Ihre derzeitige Bestellung</h4>
+      <div class="card-body" *ngFor="let lastOrder of lastOrder">
+        <div class="d-flex flex-column align-items-start">
+          <h6><strong>Ihr gewünschter Service:</strong> {{ lastOrder.serviceName }}</h6>
+          <h6><strong>Kunde:</strong> {{ lastOrder.customerName }}</h6>
+          <h6><strong>Datum:</strong> {{ lastOrder.appointment | date: 'dd. MMMM yyyy' }}</h6>
+          <h6><strong>Uhrzeit:</strong> {{ lastOrder.appointment | date: 'HH:mm' }} Uhr</h6>
+          <h6><strong>Dauer (geschätzt):</strong> ca. {{ lastOrder.timeOfService }} Minuten</h6>
+          <h6><strong>Preis (geschätzt):</strong> {{ lastOrder.totalcost | currency:'EUR' }}</h6>
+          <h6>
+            <strong>Status:</strong>
+            <span [ngClass]="{
+              'text-warning': lastOrder.orderStatus === 'In Bearbeitung',
+              'text-success': lastOrder.orderStatus === 'Bestätigt',
+              'text-danger': lastOrder.orderStatus === 'Abgelehnt'
+            }">
+              {{ lastOrder.orderStatus }}
+            </span>
+          </h6>
+        </div>
+        <div *ngIf="callHasStarted" class="card-footer">
+          <b>Ansprechperson: </b>{{ empName }}
+        </div>
+      </div>
+    </div>
+    
+
+    <ng-container *ngIf="callingService.call()">
+      <app-call class="mt-4" [call]="callingService.call()!"></app-call>
+    </ng-container>
+  </div>
+</div>

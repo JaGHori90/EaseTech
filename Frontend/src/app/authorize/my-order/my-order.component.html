@@ -1,0 +1,72 @@
+<div class="container mt-4 mb-4 ">
+    <div class="text-center">
+        <h1 *ngIf="noOrder">Sie haben derzeit keine Bestellung</h1>
+        <h1 *ngIf="!noOrder">Ihre Bestellung</h1>
+    </div>
+
+    <div class="row " *ngIf="!noOrder">
+        <div class="col-lg-6 mt-5">
+            <h2>Filter anwenden:</h2>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Filter nach Datum:</label>
+                <select class="form-select" [(ngModel)]="filterByDate">
+                    <option value="">Alle</option>
+                    <option value="last6months">Letzte 6 Monate</option>
+                </select>
+            </div> 
+            <div class="mb-3">
+                <label class="form-label fw-bold">Filter nach Status:</label>
+                <select class="form-select" [(ngModel)]="filterByStatus">
+                    <option value="">Alle</option>
+                    <option value="Angerichtet">Angerichtet</option>
+                    <option value="TerminGeplant">Termin Geplant</option>
+                    <option value="InBearbeitung">In Bearbeitung</option>
+                    <option value="Abgeschlossen">Abgeschlossen</option>
+                    <option value="Storniert">Storniert</option>
+                    <option value="Verzögert">Verzögert</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Filter nach Service</label>
+                <select class="form-select" [(ngModel)]="filterByService">
+                    <option value="">Alle</option>
+                    <option *ngFor="let service of services" [ngValue]="service.serviceName">{{service.serviceName}}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <ng-container *ngFor="let order of orders">
+                <div *ngIf="order.orderStatus.includes(filterByStatus) 
+                        && order.serviceName.includes(filterByService)
+                        && matchesDateFilter(order.date)">
+                    <div class="card p-3 mt-5" style="max-width: 40rem;">
+                        <h5 class="card-header text-bg-success" [ngClass]="{'text-bg-success': order.orderStatus ==='Abgeschlossen',
+                        'text-bg-primary': order.orderStatus === 'InBearbeitung',
+                        'text-bg-danger': order.orderStatus === 'Storniert',
+                        'text-bg-secondary': order.orderStatus === 'Angerichtet',
+                        'text-bg-info': order.orderStatus === 'TerminGeplant',
+                        'text-bg-warning': order.orderStatus === 'Verzögert'
+                        }">Bestellung Nr. : {{order.orderId}}
+                        </h5>
+                        <div class="card-body">
+                            <p><b>Status:</b> {{order.orderStatus}} </p>
+                            <p><b>Datum:</b> {{order.date | date:'dd.MM.yyyy'}}</p>
+                            <p><b>Termin:</b> {{order.appointment | date:'dd.MM.yyyy - HH:mm'}} Uhr</p>
+                            <p><b>Betreuer: </b>{{order.employeeName}}</p>
+                            <p><b>Service: </b>{{order.serviceName}}</p>
+                            <p><b>Zahlungsoption:</b> {{order.paymentMethod}}</p>
+                            <div *ngIf="order.orderStatus === 'Abgeschlossen'">
+                                <a [routerLink]="['/my-invoice',order.orderId]" routerLinkActive="router-link-active"  class="btn btn-primary w-100">Rechnung</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+        </div>
+
+       
+    </div>

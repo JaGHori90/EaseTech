@@ -1,0 +1,48 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.row {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+.error-feedback {
+  color: crimson;
+  margin: 0.2rem !important;
+  margin-top: 0.1rem !important;
+  font-size: 0.9rem;
+}
+
+.toast-top-center {
+  margin-top: 5px !important;  /* Abstand oben hinzufügen */
+}
+
+
+#main{
+  margin-left: 240px;
+}
+
+#sidebar{
+  width: 240px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+#sidebar li.nav-item a{
+  color: #637381;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.7rem 1rem;
+}
+
+#sidebar li.nav-item:hover{
+  background-color: #007fff17;
+  border-radius: 0.5rem;
+}

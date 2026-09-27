@@ -1,0 +1,123 @@
+<div class="container" style="max-width: 700px; margin: auto; padding: 20px;">
+    <h1 class="text-center mb-4">Profil bearbeiten</h1>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+
+            <div class="col-md-6 ">
+                <label for="gender" class="form-label">Geschlecht auswählen:</label>
+                <select class="form-select " formControlName="gender" placeholder="Geschlecht">
+                    <option value="Weiblich">Weiblich</option>
+                    <option value="Männlich">Männlich</option>
+                    <option value="Divers">Divers</option>
+                </select>
+                <div class="error-feedback" *ngIf="form.controls['gender'].hasError('required')">
+                    Geschlecht ist erforderlich.
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="tel" class="form-label">Telefonnummer:</label>
+                <input class="form-control" type="tel" placeholder="Telefonnummer eigeben"
+                    formControlName="phoneNumber">
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('phoneNumber') && form.controls['phoneNumber'].hasError('required')">
+                    Telefonnummer ist erforderlich.
+                </div>
+                <div class="error-feedback" *ngIf="form.controls['phoneNumber'].hasError('pattern')">
+                    Telefonnummer ist ungültig.
+                </div>
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="firstName" class="form-label">Vorname:</label>
+                <input class="form-control" type="text" placeholder="Vorname eigeben" formControlName="firstName">
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('firstName') && form.controls['firstName'].hasError('required')">
+                    Vorname ist erforderlich.
+                </div>
+                <div class="error-feedback" *ngIf="form.controls['firstName'].hasError('minlength')">
+                    Vorname ist ungültig.
+                </div>
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="LastName" class="form-label">Nachname:</label>
+                <input class="form-control" type="text" placeholder="Nachname eigeben" formControlName="lastName">
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('lastName') && form.controls['lastName'].hasError('required')">
+                    Nachname ist erforderlich.
+                </div>
+                <div class="error-feedback" *ngIf="form.controls['lastName'].hasError('minlength')">
+                    Nachname ist ungültig.
+                </div>
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="Adresse" class="form-label">Adresse:</label>
+                <input type="text" placeholder="Adresse eingeben" class="form-control" formControlName="address">
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('address') && form.controls['address'].hasError('required')">
+                    Adresse ist erforderlich.
+                </div>
+                <div class="error-feedback" *ngIf="form.controls['address'].hasError('minlength')">
+                    Adresse ist ungültig.
+                </div>
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="zipCode" class="form-label">Plz:</label>
+                <input type="text" placeholder="Plz eingeben" class="form-control" formControlName="zipCode">
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('zipCode') && form.controls['zipCode'].hasError('required')">
+                    PLZ ist erforderlich.
+                </div>
+                <div class="error-feedback" *ngIf="form.controls['zipCode'].hasError('minlength')">
+                    PLZ ist ungültig.
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="city" class="form-label">Ort:</label>
+                <input type="text" placeholder="Ort eingeben" class="form-control" formControlName="city">
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('city') && form.controls['city'].hasError('required')">
+                    Stadt ist erforderlich.
+                </div>
+                <div class="error-feedback" *ngIf="form.controls['city'].hasError('minlength')">
+                    Stadt ist ungültig.
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="birthday" class="form-label">Geburtsdatum:</label>
+                <input type="date" placeholder="Geburtsdatum auswählen" class="form-control" formControlName="birthday">
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('birthday') && form.controls['birthday'].hasError('required')">
+                    Geburtsdatum ist erforderlich.
+                </div>
+            </div>
+
+        </div>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Speichern</button>
+        </div>
+    </form>
+
+    <hr>
+
+    <div class="mt-5">
+        <h2>Profil löschen</h2>
+        <p>Wenn Sie hier auf "Profil entgültig löschen" klicken, wird Ihr Konto entgültig gelöscht !
+            <div class="input-group">
+                <input [type]="showPassword ? 'text' : 'password'" class="form-control" id="password"
+                    placeholder="Ihr Passwort" [(ngModel)]="password">
+                <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+                    <i class="bi" [ngClass]="{'bi-eye': !showPassword, 'bi-eye-slash': showPassword}"></i>
+                </button>
+            </div>
+        <div class="mt-3 d-flex justify-content-end">
+            <button (click)="deleteBtnClicked()" class="btn btn-warning">Profil endgültig löschen</button>
+        </div>
+    </div>
+     
+</div>

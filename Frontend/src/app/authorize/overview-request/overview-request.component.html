@@ -1,0 +1,58 @@
+<h1 class="text-center">Kundenanfrage</h1>
+
+<div class="m-3">
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Bearbeiter:</label>
+            <input type="text" class="form-control" [(ngModel)]="filterByEmployee" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Name:</label>
+            <input type="text" class="form-control" [(ngModel)]="filterByName" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Status</label>
+            <select class="form-select" [(ngModel)]="filterByStatus">
+                <option value="">Alle</option>
+                <option  value="Unberührt">Unberührt</option>
+                <option  value="Kontaktiert">Kontaktiert</option>
+                <option  value="InBearbeitung">InBearbeitung</option>
+                <option  value="Gelöst">Gelöst</option>
+            </select>
+        </div>
+    </div>
+
+    <br>
+    <table class="table">
+        <thead class="text-center">
+            <tr>
+                <th>Bearbeiter</th>
+                <th>Empfehlung</th>
+                <th>Name</th>
+                <th>phoneNumber</th>
+                <th>Datum</th>
+                <th>Status</th>
+                <th>Nachricht</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let request of UserRequests">
+                <tr *ngIf="(request.employeeName && request.employeeName.includes(filterByEmployee.toLocaleLowerCase())) 
+                         && request.name.toLocaleLowerCase().includes(filterByName.toLocaleLowerCase())
+                         && request.contactStatus.includes(filterByStatus)"
+                         [ngClass]="{ 'table-danger': request.contactStatus== 'Unberührt' }">
+                    <td>{{request.employeeName}}</td>
+                    <td>{{request.referrer}}</td>
+                    <td>{{request.name}}</td>
+                    <td>{{request.phoneNumber}}</td>
+                    <td>{{request.date | date:'dd.MM.yyyy - HH:mm'}}</td>
+                    <td>{{request.contactStatus}}</td>
+                    <td>{{request.message}}</td>
+                    <td><a class="btn btn-primary" [routerLink]="['/edit-request',request.id]"
+                            routerLinkActive="router-link-active">Edit</a></td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+
+</div>

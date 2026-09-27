@@ -1,0 +1,59 @@
+<div class="container mt-1 mb-4">
+    <div class="row">
+        <div class="col-lg-6">
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Unternehmensinformationen -->
+        <div class="col-lg-6 mt-3 text-lg-start text-center">
+            <h4 class="pt-1 fw-bold">EaseTech</h4>
+            <h6>Damberggasse 2, 4030 Linz</h6>
+            <h6>📞 <a href="tel:+43732123456" class="text-black">0732 123456</a></h6>
+            <h6>📧 <a href="mailto:easetech-service@gmail.com" class="text-black">easetech-service&#64;gmail.com</a>
+            </h6>
+        </div>
+
+        <!-- Formular -->
+        <div class="col-lg-6 mt-3">
+            <h6 class="text-center mb-3">
+                Sollen wir Sie, Ihre Eltern oder Ihre Patienten anrufen? <br>
+                Bitte füllen Sie dazu dieses Formular aus.
+            </h6>
+            
+
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="referrer" class="form-label ">Empfohlen von:</label>
+                    <input type="text" class="form-control" fromControlName="referrer" placeholder="Empfohlen von ...">
+                </div>
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" class="form-control " formControlName="name" placeholder="Ihr Name">
+                </div>
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Telefonnummer:</label>
+                    <input class="form-control " type="tel" placeholder="+43 732 123456"
+                        formControlName="phoneNumber">
+                    <div class="error-feedback"
+                        *ngIf="hasDisplayError('phoneNumber') && form.controls['phoneNumber'].hasError('required')">
+                        Telefonnummer ist erforderlich.
+                    </div>
+                    <div class="error-feedback" *ngIf="form.controls['phoneNumber'].hasError('pattern')">
+                        Telefonnummer ist ungültig.
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="message" class="form-label">Bitte schildern Sie kurz Ihr Problem:</label>
+                    <textarea class="form-control" formControlName="message" rows="4"
+                        placeholder="Ihr Problem"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Absenden</button>
+            </form>
+        </div>
+    </div>
+</div>

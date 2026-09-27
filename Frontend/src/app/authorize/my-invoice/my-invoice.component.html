@@ -1,0 +1,61 @@
+<div class="container d-flex justify-content-center m-5">
+
+    <div class="card w-50 h-100">
+        <h1 class="p-3 text-center">RECHNUNG</h1>
+
+        <div class="card-header">
+            <h6>RECHNUNG AN:</h6>
+            <div class="d-flex justify-content-start">
+                <h6> {{customerName}} <br>
+                    {{customerAdress}} <br>
+                    {{cutomerCityAndZip}} <br>
+                </h6>
+            </div>
+            <div class="d-flex justify-content-end">
+                <h6>Rechnung Nr. : {{invoice.invoiceId}} <br>
+                    Datum: {{invoice.invoiceDate | date:'dd.MMMM yyyy'}} <br>
+                    Rechnungsstatus: {{invoice.paymentStatus}} <br>
+                    Zahlungsreferenz: {{invoice.paymentReference}}
+                </h6>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="card-body">
+                <table class="table text-center" style="table-layout: fixed; ">
+                    <thead>
+                        <tr>
+                            <th class="text-start">Beschreibung</th>
+                            <th style="width: 20%;">Dauer in Minuten</th>
+                            <th style="width: 20%;">Preis pro Minute</th>
+                            <th style="width: 20%;">Summe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr >
+                            <td class="text-start">{{serviceName}}</td>
+                            <td>{{ order.timeOfService }}</td>
+                            <td>{{ pricePerMinute | currency:'EUR':'symbol':'1.2-2' }}</td>
+                            <td>{{ invoice.totalAmount | currency:'EUR':'symbol':'1.2-2' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class=" d-flex justify-content-end ">
+                <strong>zzgl.MwSt.: {{invoice.taxAmount | currency:'EUR':'symbol':'1.2-2'}}
+                    <hr class=" my-2">
+                    Rechunngsbetrag: {{ invoice.totalAmount | currency:'EUR':'symbol':'1.2-2' }}
+                </strong>
+            </div>
+            <div class="col-lg-6 mt-3 text-lg-start text-center">
+                <h6>Easetech Solution GmbH</h6>
+                <h6>Damberggasse 2, 4030 Linz</h6>
+                <h6>IBAN: AT29 9399 9393 3939</h6>
+                <h6>BIC: BICST00XXX</h6>
+            </div>
+
+        </div>
+    </div>
+</div>

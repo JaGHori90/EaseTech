@@ -1,0 +1,38 @@
+<div *ngIf="!userIsRegistered" class="container" style="max-width: 700px; margin: auto; padding: 20px;">
+    <h1 class="text-center mb-4">Online-Service Registierung</h1>
+    
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <label for="isAvailable" class="form-label">Status wählen:</label>
+                <select id="isAvailable" class="form-select" formControlName="isAvailable">
+                    <option [value]="true">Frei</option>
+                    <option [value]="false">Besetzt</option>
+                </select>
+                <div class="error-feedback" *ngIf="form.controls['isAvailable'].hasError('required')">
+                    Auswahl von Status ist erforderlich.
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="callId" class="form-label">Call-ID:</label>
+                <input id="callId" class="form-control" type="text" placeholder="Call-ID eingeben" formControlName="callId">
+                <div class="error-feedback" *ngIf="hasDisplayError('callId') && form.controls['callId'].hasError('required')">
+                    Call-ID ist erforderlich.
+                </div>
+                <div class="error-feedback" *ngIf="form.controls['callId'].hasError('minlength')">
+                    Call-ID ist ungültig.
+                </div>
+            </div>     
+           
+        </div>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Speichern</button>
+        </div>
+    </form>
+</div>
+
+<div class="card w-75 ms-5 mt-2 d-flex justify-content-center" *ngIf="userIsRegistered">
+    <h1 class=" text-center text-danger">Sie sind bereits registriert</h1>
+</div>

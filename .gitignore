@@ -1,0 +1,37 @@
+# ---- .NET ----
+bin/
+obj/
+.vs/
+*.user
+*.suo
+TestResults/
+*.swp
+*.DotSettings.user
+publish/
+*.zip
+
+# ---- Secrets / lokale Konfiguration ----
+.env
+.env.*
+!.env.example
+appsettings.*.local.json
+service-account.json
+
+# ---- Node / Angular ----
+node_modules/
+dist/
+.angular/
+coverage/
+Frontend/test-results/
+Frontend/playwright-report/
+
+# ---- IDEs (Rider, VS Code) ----
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# ---- OS ----
+.DS_Store
+Thumbs.db

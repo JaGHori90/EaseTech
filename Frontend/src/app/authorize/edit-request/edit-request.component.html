@@ -1,0 +1,62 @@
+<div class="container" style="max-width: 700px; margin: auto; padding: 20px;">
+    <h1 class="text-center mb-4">Anfrage bearbeiten</h1>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <label for="contactStatus" class="form-label">Status auswählen:</label>
+                <select class="form-select" formControlName="contactStatus" placeholder="contactStatus">
+                    <option value="Unberührt">Nicht kontaktiert</option>
+                    <option value="InBearbeitung">Im Gang </option>
+                    <option value="Kontaktiert">Kontaktiert</option>
+                    <option value="Gelöst">Gelöst</option>
+                </select>
+                <div class="error-feedback" *ngIf="form.controls['contactStatus'].hasError('required')">
+                    Auswahl von Status ist erforderlich.
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label" for="date">Anfrage Datum:</label>
+                <input type="text" readonly class="form-control" [value]="form.value.date |date:'dd.MM.yyyy'">
+            </div>
+
+            <div class="col-md-6 ">
+                <label class="form-label" for="referrer">Bearbeiter:</label>
+                <input class="form-control bg-body-tertiary" readonly type="text" placeholder="Bearbeiter" [value]="employeeName">
+            </div>
+
+            <div class="col-md-6 ">
+                <label class="form-label" for="referrer">Kunden Empfehler:</label>
+                <input class="form-control" type="text" placeholder="Kunden Empfehler" formControlName="referrer">
+            </div>
+
+            <div class="col-md-6 ">
+                <label class="form-label" for="name">Kunden Name:</label>
+                <input class="form-control" type="text" placeholder="Kunden Name" formControlName="name">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label" for="Telefonnummer">Telefonnummer:</label>
+                <input class="form-control" type="tel" placeholder="Telefonnummer" formControlName="phoneNumber">
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('phoneNumber') && form.controls['phoneNumber'].hasError('required')">
+                    Telefonnummer ist erforderlich.
+                </div>
+                <div class="error-feedback" *ngIf="form.controls['phoneNumber'].hasError('pattern')">
+                    Telefonnummer ist ungültig.
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                <label class="form-label" for="message">Kunden Nachricht:</label>
+                <input type="text" placeholder="Kunden Nachricht" class="form-control" formControlName="message">
+            </div>
+
+        </div>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Speichern</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,105 @@
+<div class="container" style="max-width: 700px; margin: auto; padding: 20px;">
+    <h1 class="text-center mb-3">Neuer User Registieren</h1>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+            <div class="col-md-12 ">
+                <label for="role" class="form-label">Eine Role Auswählen:</label>
+                <select class="form-select" formControlName="role" placeholder="Role auswählen">
+                    <option value="Customer">Kunde</option>
+                    <option [appHideIfClaimsNotMet]="claimReq.adminOnly" value="Admin">Admin</option>
+                    <option [appHideIfClaimsNotMet]="claimReq.adminOnly" value="Employee">Mitarbeiter</option>
+                </select>
+                <div class="error-feedback" *ngIf="form.controls['role'].hasError('required')">
+                    Auswahl von Rolle ist erforderlich.
+                </div>
+            </div>
+            <div class="col-md-6 ">
+                <label for="firstName" class="form-label">Vorname:</label>
+                <input class="form-control" placeholder="Vorname eingeben" formControlName="firstName">
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('firstName') && form.controls['firstName'].hasError('required')">
+                    Vorname ist erforderlich.
+                </div>
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('firstName') && form.controls['firstName'].hasError('pattern')">
+                    Vorname darf nur Buchstaben enthalten.
+                </div>
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('firstName') && form.controls['firstName'].hasError('minlength')">
+                    Vorname muss mindestens 2 Zeichen lang sein.
+                </div>
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('firstName') && form.controls['firstName'].hasError('maxlength')">
+                    Vorname darf maximal 20 Zeichen lang sein.
+                </div>
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="lastName" class="form-label">Nachname:</label>
+                <input class="form-control" placeholder="Nachname eingeben " formControlName="lastName">
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('lastName') && form.controls['lastName'].hasError('required')">
+                    Nachname ist erforderlich.
+                </div>
+
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('lastName') && form.controls['lastName'].hasError('pattern')">
+                    Nachname darf nur Buchstaben enthalten.
+                </div>
+
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('lastName') && form.controls['lastName'].hasError('minlength')">
+                    Nachname muss mindestens 2 Zeichen lang sein.
+                </div>
+
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('lastName') && form.controls['lastName'].hasError('maxlength')">
+                    Nachname darf maximal 20 Zeichen lang sein.
+                </div>
+            </div>
+
+            <div class="col-md-12 ">
+                <label for="email" class="form-label">E-Mail:</label>
+                <input class="form-control" placeholder="Email eigeben" formControlName="email">
+                <div class="error-feedback" *ngIf="hasDisplayError('email')">
+                    <div *ngIf="form.controls['email'].hasError('required')">
+                        E-Mail-Adresse ist erforderlich.
+                    </div>
+                    <div *ngIf="form.controls['email'].hasError('email')">
+                        Bitte geben Sie eine gültige E-Mail-Adresse ein.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" class="form-control" placeholder="Password eingeben" formControlName="password">
+                <div class="error-feedback" *ngIf="hasDisplayError('password')">
+                    <ng-container [ngSwitch]="form.controls['password'].errors |firstKey">
+                        <div *ngSwitchCase="'required'">
+                            Passwort ist erforderlich.
+                        </div>
+                        <div *ngSwitchCase="'minlength'">
+                            Bitte geben Sie mindestens 8 Zeichen ein.
+                        </div>
+                        <div *ngSwitchCase="'pattern'">
+                            Mindestens ein Groß- und Kleinbuchstabe, eine Ziffer und ein Sonderzeichen.
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="col-md-6  mb-3">
+                <label for="password" class="form-label">Password Bestätigen:</label>
+                <input type="password" class="form-control" placeholder="Password Bestätigen"
+                    formControlName="confirmPassword">
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('confirmPassword') && form.controls['confirmPassword'].hasError('passwordMismatch')">
+                    Die angegebenen Passwörter stimmen nicht überein.
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary w-100 rounded-3">Erstellen</button>
+            </div>
+        </div>
+    </form>
+</div>

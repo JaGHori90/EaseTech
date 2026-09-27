@@ -1,0 +1,68 @@
+<div class="mb-4">
+    <h2 class="text-dark">
+        Anmelden
+    </h2>
+    <div>
+        Haben Sie noch kein Konto?
+        <a [routerLink]="'/user/signup'" class="text-decoration-none fw-mdeium text-info d-inline-block">Konto
+            erstellen</a>
+    </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+        <input class="form-control " placeholder="Email" formControlName="email">
+        <div class="error-feedback" *ngIf="hasDisplayError('email') && form.controls['email'].hasError('required')">
+            E-Mail-Adresse ist erforderlich.
+        </div>
+    </div>
+    <div class="mb-3">
+        <input [type]="showPassword ? 'text' : 'password'" class="form-control" placeholder="Password"
+            formControlName="password">
+        <div class="error-feedback"
+            *ngIf="hasDisplayError('password') && form.controls['password'].hasError('required')">
+            Passwort ist erforderlich.
+        </div>
+    </div>
+
+    <div class="col-12 form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="showPasswordToggle" (change)="togglePasswordVisibility()">
+        <label class="form-check-label" for="showPasswordToggle">Passwort anzeigen</label>
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary w-100 rounded-3">Anmelden</button>
+    </div>
+
+    <div class="mt-4">
+        <h6 data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="text-primary text-center"
+            style="cursor: pointer;">
+            Passwort vergessen?
+        </h6>
+    </div>
+
+    <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Passwort vergessen ? Kein Problem</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Rufen Sie uns einfach an!</h6>
+                    <h6>📞 <a href="tel:+43732123456" class="text-black">0732 12345655</a></h6>
+                    <ul class="list-unstyled">
+                        <li><b>Usere Öffnungszeiten</b></li>
+                        <li><i class="bi bi-clock"></i> Mo - Sa: 8:00 bis 17:00 Uhr</li>
+                        <li><i class="bi bi-x-circle"></i> So: Geschlossen</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

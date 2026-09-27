@@ -1,0 +1,51 @@
+<nav id="sidebar" class="navbar bg-body-tertiary vh-100 flex-column justify-content-start">
+    <div class="container-fluid justify-content-center p-1">
+        <a [routerLink]="'/dashboard'" class="navbar-brand h1 fw-bold text-black mb-3">
+            Dashboard 
+        </a>
+    </div>
+    <ul class="nav flex-column w-100 px-3">
+        <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.adminOrEmployee">
+            <a [routerLink]="'/overview-user'" class="nav-link" routerLinkActive="active">Benutzer Übersicht</a>
+        </li>
+        <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.adminOrEmployee">
+            <a [routerLink]="'/register-user'" class="nav-link" routerLinkActive="active">Benutzer Registierung</a>
+        </li>
+        <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.adminOrEmployee">
+            <a [routerLink]="'/overview-request'" class="nav-link" routerLinkActive="active">Anfrage Übersicht</a>
+        </li>
+        <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.adminOrEmployee">
+            <a [routerLink]="'/overview-order'" class="nav-link" routerLinkActive="active">Bestellung Übersicht</a>
+        </li> 
+        <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.adminOrEmployee">
+            <a [routerLink]="'/create-order'" class="nav-link" routerLinkActive="active">Bestellung erstellen</a>
+        </li>
+        <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.adminOrEmployee">
+            <a [routerLink]="'/overview-invoice'" class="nav-link" routerLinkActive="active">Rechnung Übersicht</a>
+        </li>
+        <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.all">
+            <a [routerLink]="'/profile-mangement'" class="nav-link" routerLinkActive="active">Profil bearbeiten</a>
+        </li>  
+        <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.all">
+            <a [routerLink]="'/my-order'" class="nav-link" routerLinkActive="active">Meine Bestellung</a>
+        </li>  
+        <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.adminOrEmployee">
+            <a [routerLink]="'/video-call'" class="nav-link" routerLinkActive="active">Status Registierung</a>
+        </li>  
+        <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.all">
+            <a [routerLink]="'/password-change'" class="nav-link" routerLinkActive="active">Passwort ändern</a>
+        </li> 
+        <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.adminOnly">
+            <a [routerLink]="'/reset-password'" class="nav-link" routerLinkActive="active">Passwort zurücksetzen</a>
+        </li> 
+    </ul>
+</nav>
+<div id="main">
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid justify-content-end px-3 py-1">
+            <button class="btn btn-outline-danger" (click)="onLogout()">Abmelden</button>
+            <button class="btn btn-dark ms-3" [routerLink]="'/page/home'">Startseite</button>
+        </div>
+    </nav>
+    <router-outlet></router-outlet>
+</div>

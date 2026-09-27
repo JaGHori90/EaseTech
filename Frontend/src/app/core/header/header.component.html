@@ -1,0 +1,23 @@
+<nav class="navbar navbar-dark bg-black mb-1">
+  <div class="container d-flex justify-content-between align-items-center">
+    <!-- Logo -->
+    <a class="navbar-brand fs-4" [routerLink]="'/page/home'">
+      <img src="images/Logo.png" style="max-height: 50px; max-width: 50px; width: auto; height: auto;" class="logo-img" alt="EaseTech Logo"> EaseTech 
+    </a>
+
+    <div class="d-flex align-items-center">
+      <!-- <a class="navbar-brand fs-4" [routerLink]="'/page/service'">Service</a> -->
+      <div *ngIf="isLoggedIn()"> 
+        <button class="btn btn-light me-2" [routerLink]="'/dashboard'">
+          Übersicht
+        </button>  
+        <button class="btn btn-outline-light me-2" type="button" (click)="onLogout()">Abmelden</button>
+      </div>
+
+      <div *ngIf="!isLoggedIn()">
+        <button class="btn btn-outline-light me-2" type="button" [routerLink]="'/user/signin'">Anmelden</button>
+        <button class="btn btn-warning" type="button" [routerLink]="'/user/signup'">Registrieren</button>
+      </div>
+    </div>
+  </div>
+</nav>

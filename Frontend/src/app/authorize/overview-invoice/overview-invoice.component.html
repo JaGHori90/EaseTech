@@ -1,0 +1,92 @@
+<h1 class="text-center">Rechnung Überblick</h1>
+
+<div class="m-3">
+    <div class="row">
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Bearbeiter:</label>
+            <input type="text" class="form-control" [(ngModel)]="filterByEmployee" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Name:</label>
+            <input type="text" class="form-control" [(ngModel)]="filterByCustomer" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Service</label>
+            <select class="form-select" [(ngModel)]="filterByService">
+                <option value="">Alle</option>
+                <option  *ngFor="let service of services" [ngValue]="service.serviceName">{{service.serviceName}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Status:</label>
+            <select class="form-select" [(ngModel)]="filterByStatus">
+                <option value="">Alle</option>
+                <option  value="Ausstehend">Ausstehend</option>
+                <option  value="Erstattet">Erstattet</option>
+                <option  value="Erfolgreich">Erfolgreich</option>
+                <option  value="Abgelehnt">Abgelehnt</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Zahlungsart:</label>
+            <select class="form-select" [(ngModel)]="filterByPaymentMethod">
+                <option value="">Alle</option>
+                <option  value="Bar">Bar</option>
+                <option  value="Rechnung">Auf Rechnung</option>
+                <option  value="Kreditkarte">Kreditkarte</option>
+                <option  value="PayPal">PayPal</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Referenz Nr.:</label>
+            <input type="text" class="form-control" [(ngModel)]="filterByReferenceNr" />
+        </div>
+    </div>
+
+    <br>
+    <table class="table">
+        <thead>
+            <tr >
+                <th>Bearbeiter</th>
+                <th>Kunde</th>
+                <th>Service</th>
+                <th>Datum</th>
+                <th>Zahlungsart</th>
+                <th>Brutto</th>
+                <th>MwStr.</th>
+                <th>Netto</th>
+                <th>Referenz Nr.</th>
+                <th>Status</th>
+
+            </tr>
+        </thead>
+        <tbody> 
+            <ng-container *ngFor="let invoice of invoices">
+                <tr *ngIf="invoice.employeeName.toLowerCase().includes(filterByEmployee.toLowerCase()) 
+                         && invoice.customerName.toLowerCase().includes(filterByCustomer.toLowerCase())
+                         && invoice.paymentReference.includes(filterByReferenceNr)
+                         && invoice.serviceName.includes(filterByService)
+                         && invoice.paymentMethod.includes(filterByPaymentMethod)
+                         && invoice.paymentStatus.includes(filterByStatus)">
+                    <td>{{invoice.employeeName}}</td>
+                    <td>{{invoice.customerName}}</td>
+                    <td>{{invoice.serviceName}}</td>
+                    <td>{{invoice.invoiceDate | date:'dd.MM.yyyy '}}</td>
+                    <td>{{invoice.paymentMethod}}</td>
+                    <td>{{invoice.totalAmount}}</td>
+                    <td>{{invoice.taxAmount}}</td>
+                    <td>{{invoice.netAmount}}</td>
+                    <td>{{invoice.paymentReference}}</td>
+                    <td>{{invoice.paymentStatus}}</td>
+                    <td><button  class="btn btn-primary"  
+                        [routerLink]="['/edit-invoice',invoice.invoiceId]"
+                        routerLinkActive="router-link-active" >Edit</button>
+                    </td>
+                   
+                </tr>
+            </ng-container>     
+        </tbody>
+    </table>
+</div>

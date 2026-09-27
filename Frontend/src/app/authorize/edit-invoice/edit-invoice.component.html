@@ -1,0 +1,85 @@
+<div class="container" style="max-width: 700px; margin: auto; padding: 20px;">
+    <h1 class="text-center mb-4">Bestellung bearbeiten</h1>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <label for="customerName">Kunde:</label>
+                <input type="text" readonly class="form-control bg-body-tertiary" [value]="customerName">
+            </div>
+
+            <div class="col-md-6">
+                <label for="orderDate">Bestellungsdatum:</label>
+                <input type="text" readonly class="form-control bg-body-tertiary"[value]="form.value.orderDate |date:'dd.MM.yyyy'">
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="employeeName" class="form-label">Bearbeiter:</label>
+                <input type="text" readonly class="form-control bg-body-tertiary" [value]="employeeName">
+
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="serviceId" class="form-label">Service:</label>
+                <input type="text" readonly class="form-control bg-body-tertiary" [value]="serviceName">
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="orderStatus" class="form-label">ZahlungsStatus Auswählen:</label>
+                <select class="form-select" formControlName="paymentStatus" placeholder="paymentStatus">
+                    <option value="Ausstehend">Ausstehend</option>
+                    <option value="Erstattet">Erstattet</option>
+                    <option value="Erfolgreich">Erfolgreich</option>
+                    <option value="Abgelehnt">Abgelehnt</option>            
+                </select>
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('paymentStatus') && form.controls['paymentStatus'].hasError('required')">
+                    Status ist erforderlich.
+                </div>
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="paymentReference" class="form-label">Zahlungsreferenz:</label>
+                <input type="text" placeholder="Zahlungsreferenz" class="form-control bg-body-tertiary" formControlName="paymentReference">
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="paymentMethod" class="form-label">Zahlungsmethode:</label>
+                <input type="text" placeholder="Zahlungsart" class="form-control bg-body-tertiary" formControlName="paymentMethod">
+            </div>
+
+            <div class="col-md-6">
+                <label for="invoiceDate" class="form-label">Rechnungsdatum:</label>
+                <input type="text" class="form-control bg-body-tertiary" [value]="form.value.invoiceDate |date:'dd.MM.yyyy'">
+            </div>
+
+            <div class="col-md-4">
+                <label for="netAmount" class="form-label">Nettopreis:</label>
+                <input type="number" readonly class="form-control bg-body-tertiary" formControlName="netAmount">
+            </div>
+
+            
+            <div class="col-md-4">
+                <label for="taxAmount" class="form-label">MwStr.:</label>
+                <input type="number" readonly class="form-control bg-body-tertiary" formControlName="taxAmount">
+            </div>
+
+            <div class="col-md-4">
+                <label for="totalAmount" class="form-label">Bruttopreis:</label>
+                <input type="number" readonly class="form-control bg-body-tertiary" formControlName="totalAmount">
+            </div>
+
+            
+
+           
+
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Speichern</button>
+        </div>
+
+    </form>
+
+</div>

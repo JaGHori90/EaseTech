@@ -1,0 +1,87 @@
+<h1 class="text-center">Bestellung Übersicht</h1>
+
+<div class="m-3">
+    <div class="row">
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Bearbeiter:</label>
+            <input type="text" class="form-control" [(ngModel)]="filterByEmployee" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Name:</label>
+            <input type="text" class="form-control" [(ngModel)]="filterByCustomer" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Service</label>
+            <select class="form-select" [(ngModel)]="filterByService">
+                <option value="">Alle</option>
+                <option *ngFor="let service of services" [ngValue]="service.serviceName">{{service.serviceName}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Status:</label>
+            <select class="form-select" [(ngModel)]="filterByStatus">
+                <option value="">Alle</option>
+                <option value="Angerichtet">Angerichtet</option>
+                <option value="TerminGeplant">Termin Geplant</option>
+                <option value="InBearbeitung">In Bearbeitung</option>
+                <option value="Abgeschlossen">Abgeschlossen</option>
+                <option value="Storniert">Storniert</option>
+                <option value="Verzögert">Verzögert</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Filter nach Zahlungsart:</label>
+            <select class="form-select" [(ngModel)]="filterByPaymentMethod">
+                <option value="">Alle</option>
+                <option value="Bar">Bar</option>
+                <option value="Rechnung">Auf Rechnung</option>
+                <option value="Kreditkarte">Kreditkarte</option>
+                <option value="PayPal">PayPal</option>
+            </select>
+        </div>
+
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th>Bearbeiter</th>
+                <th>Kunde</th>
+                <th>Service</th>
+                <th>Datum</th>
+                <th>Status</th>
+                <th>Servicezeit</th>
+                <th>Kosten</th>
+                <th>Zahlung</th>
+                <th>Termin</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let order of orders">
+                <tr *ngIf="order.employeeName?.toLowerCase().includes(filterByEmployee?.toLowerCase()) 
+                    && order.customerName?.toLowerCase().includes(filterByCustomer?.toLowerCase()) 
+                    && order.serviceName?.includes(filterByService)
+                    && order.paymentMethod?.includes(filterByPaymentMethod)
+                    && order.orderStatus?.includes(filterByStatus)">
+                    <td>{{order.employeeName}}</td>
+                    <td>{{order.customerName}}</td>
+                    <td>{{order.serviceName}}</td>
+                    <td>{{order.date | date:'dd.MM.yyyy HH:mm'}}</td>
+                    <td>{{order.orderStatus}}</td>
+                    <td>{{order.timeOfService}}</td>
+                    <td>{{order.totalcost}}</td>
+                    <td>{{order.paymentMethod}}</td>
+                    <td>{{order.appointment | date:'dd.MM.yyyy HH:mm'}}</td>
+                    <td><button class="btn btn-primary" 
+                            [routerLink]="['/edit-order',order.orderId]"
+                            routerLinkActive="router-link-active">Edit</button>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</div>

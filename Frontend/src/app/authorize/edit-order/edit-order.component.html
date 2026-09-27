@@ -1,0 +1,103 @@
+<div class="container" style="max-width: 700px; margin: auto; padding: 20px;">
+    <h1 class="text-center mb-4">Bestellung bearbeiten</h1>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <label for="customerId">Kunde:</label>
+                <input type="text" readonly class="form-control bg-body-tertiary" [value]="customerName">
+            </div>
+
+            <div class="col-md-6">
+                <label for="date">Bestellungsdatum:</label>
+                <input type="text" readonly class="form-control bg-body-tertiary"[value]="form.value.date |date:'dd.MM.yyyy'" >
+            </div>
+
+            <div class="col-md-12 ">
+                <label for="customerId" class="form-label">Bearbeiter Auswählen:</label>
+                <select class="form-select" formControlName="employeeId">
+                    <option class="dropdown-item" *ngFor="let emp of employeeOrAdmins" [value]="emp.id">
+                        {{ emp.firstName }} {{ emp.lastName }}
+                    </option>
+                </select>
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('emplyeeId') && form.controls['employeeId'].hasError('required')">
+                    Auswahl von Bearbeiter ist erforderlich.
+                </div>
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="serviceId" class="form-label">Service Auswählen:</label>
+                <select class="form-select " formControlName="serviceId">
+                    <option class="dropdown-item" *ngFor="let s of services" [ngValue]="s.serviceId">
+                        {{ s.serviceName }}
+                    </option>
+                </select>
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('serviceId') && form.controls['serviceId'].hasError('required')">
+                    Auswahl von Serivce ist erforderlich.
+                </div>
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="orderStatus" class="form-label">Status Auswählen:</label>
+                <select class="form-select" formControlName="orderStatus" placeholder="orderStatus">
+                    <option value="Angerichtet">Bestellung angerichtet</option>
+                    <option value="TerminGeplant">Termin Geplant</option>
+                    <option value="InBearbeitung">In Bearbeitung</option>
+                    <option value="Abgeschlossen">Abgeschlossen</option>
+                    <option value="Storniert">Storniert</option>
+                    <option value="Verzögert">Verzögert</option>
+                </select>
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('orderStatus') && form.controls['orderStatus'].hasError('required')">
+                    Status ist erforderlich.
+                </div>
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="timeOfService" class="form-label">Zeit in Minute:</label>
+                <input type="number" placeholder="Time in Minute" class="form-control" formControlName="timeOfService">
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('timeOfService') && form.controls['timeOfService'].hasError('required')">
+                    Zeitangabe ist erforderlich.
+                </div>
+                <div class="error-feedback" *ngIf="form.controls['timeOfService'].hasError('pattern')">
+                    Zeitangabe ist ungültig.
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="totalCost" class="form-label">Gesamte Kosten EURO:</label>
+                <input type="number" class="form-control" formControlName="totalCost">
+            </div>
+
+            <div class="col-md-6">
+                <label for="appointment" class="form-label">Termin Auswählen:</label>
+                <input type="datetime-local" class="form-control" [value]="form.value.appointment |date:'dd.MM.yyyy HH:mm'" formControlName="appointment">
+            </div>
+
+            <div class="col-md-6 ">
+                <label for="paymentMethod" class="form-label">Zahlungsoption:</label>
+                <select class="form-select" formControlName="paymentMethod" placeholder="Zahlungsoption">
+                    <option value="Bar">In Bar </option>
+                    <option value="Rechnung">Auf Rechnung</option>
+                    <option value="Kreditkarte">Mit Kreditkart</option>
+                    <option value="PayPal">PayPal</option>
+                </select>
+                <div class="error-feedback"
+                    *ngIf="hasDisplayError('paymentMethod') && form.controls['payMentMethod'].hasError('required')">
+                    Zeitangabe ist erforderlich.
+                </div>
+            </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Speichern</button>
+        </div>
+
+    </form>
+
+</div>
