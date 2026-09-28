@@ -29,21 +29,18 @@ wird nach `main` gemergt.
 
 ---
 
-## Phase 2 – E-Mail-Server (Benachrichtigungen & Passwort)
+## Phase 2 – Benachrichtigungen, PDF-Rechnung, Feedback
 
-Ziel: Die API verschickt E-Mails über SMTP. Eine Schnittstelle `IEmailSender`
-macht den Anbieter austauschbar (in Tests wird ein Fake verwendet).
+> **Designentscheidung aus der Diplomarbeit:** Die Zielgruppe (ältere Menschen) nutzt E-Mail oft wenig.
+> Passwort-Zurücksetzen läuft deshalb bewusst **telefonisch über einen Admin**, nicht per E-Mail-Link.
+> E-Mails sind vor allem für das **Team** gedacht, für Kunden nur optional.
 
-- [ ] SMTP-Anbindung mit **MailKit**, Konfiguration über `Email:*` Secrets
-- [ ] **Passwort vergessen**: Link mit Identity-Reset-Token per Mail → Seite „Neues Passwort setzen"
-- [ ] E-Mail-Bestätigung bei der Registrierung
-- [ ] Benachrichtigungen:
-  - neue Kontaktanfrage → Mitarbeiter
-  - Auftrag angelegt / Status geändert → Kunde
-  - Rechnung erstellt → Kunde
-  - Passwort wurde geändert → Benutzer (Sicherheitshinweis)
+- [ ] SMTP-Anbindung mit **MailKit** hinter einer Schnittstelle `IEmailSender` (in Tests ein Fake)
+- [ ] Benachrichtigungen an das Team: neue Kontaktanfrage, neuer Auftrag
+- [ ] Optional für Kunden (nur wenn im Profil aktiviert): Auftragsbestätigung, Rechnung
+- [ ] **Rechnung als PDF** zum Herunterladen und Ausdrucken
+- [ ] **Feedback-Funktion** nach einem abgeschlossenen Service
 - [ ] Versand im Hintergrund (Queue), damit Requests nicht auf den Mailserver warten
-- [ ] HTML-Vorlagen auf Deutsch
 
 **Entscheidung offen – Mail-Anbieter:** z. B. Brevo (kostenloses Kontingent, SMTP),
 Resend, Mailjet oder der SMTP-Server des eigenen Webhosters.

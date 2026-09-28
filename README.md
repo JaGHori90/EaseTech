@@ -1,10 +1,33 @@
 # EaseTech
 
-Eine Full-Stack-Webanwendung für **technischen Support**: Kunden buchen Hilfe bei Computer-, TV- oder Drucker-Problemen, starten einen **Video-Call** mit einem freien Mitarbeiter oder hinterlassen eine Rückruf-Anfrage. Mitarbeiter und Admins verwalten im Dashboard Aufträge, Rechnungen, Anfragen und Benutzer.
+**Einfacher Zugang zur Technologie** – eine Webplattform, die **ältere Menschen** und Personen mit wenig Technik-Erfahrung bei technischen Problemen unterstützt: vom WLAN-Problem am neuen Smart-TV über Druckereinstellungen bis zur unabhängigen Kauf- oder Reparaturberatung – online per **Video-Call** oder vor Ort.
 
-Entstanden 2025 als **Diplomprojekt**, danach von mir überarbeitet und veröffentlicht: neue Datenbank (PostgreSQL/Neon), geschlossene Sicherheitslücken, automatisierte Tests, CI und Hosting auf Azure und Vercel.
+Entstanden 2025 als **Diplomarbeit an der HTL Leonding** (Höhere Abteilung für Informatik), danach von mir überarbeitet und veröffentlicht: neue Datenbank (PostgreSQL/Neon), geschlossene Sicherheitslücken, automatisierte Tests, CI und Hosting auf Azure und Vercel.
 
 🌐 **Live:** [ease-tech-ejts.vercel.app](https://ease-tech-ejts.vercel.app)
+
+## Warum EaseTech?
+
+Viele ältere Menschen stehen vor denselben Hürden: Geräte ohne verständliche Bedienungsanleitung, Tasten mit Mehrfachbelegung, fehlendes Wissen für faire Kaufentscheidungen und schwer auffindbare Ersatzteile. Bestehende Angebote sind oft unübersichtlich, bieten keinen Video-Support oder verlangen eine aufwendige Registrierung.
+
+EaseTech setzt genau dort an: **wenig Hürden, persönliche Hilfe, verständliche Oberfläche.** Nutzen können die Plattform Privatpersonen ebenso wie Seniorenheime, Gemeinden oder Angehörige, die Hilfe für jemand anderen anfordern.
+
+## Design für ältere Menschen
+
+Die wichtigsten UX-Entscheidungen – bewusst einfach gehalten:
+
+| Entscheidung | Warum |
+|---|---|
+| **Registrierung nur mit Vorname, Nachname, E-Mail und Passwort** | Jedes zusätzliche Feld ist eine Hürde. Adresse, Telefonnummer, Geburtsdatum usw. ergänzt die Person später im Profil – oder ein Mitarbeiter übernimmt das. |
+| **Schlanke Navigation**: für Besucher nur *Anmelden*, *Registrieren* und *„Bitte hier drücken“* | Wer unsicher ist, landet mit einem Klick beim Kontaktformular und wird zurückgerufen. |
+| **Schritt-für-Schritt statt Informationsflut**: zuerst nur **drei große Bilder** (Computer, Fernseher, Drucker) | Erst nach der Auswahl erscheinen die passenden Services, danach Preis und Dauer – und erst dann *„Jetzt buchen“*. Jeder Schritt zeigt nur, was gerade gebraucht wird. |
+| **Persönliche Begrüßung** mit Vornamen | Die Person fühlt sich direkt angesprochen. |
+| **Schwarz-Weiß-Farbschema, klare Schrift, große Schaltflächen** | Hoher Kontrast ist für ältere Augen leichter erkennbar. |
+| **Kontaktformular auch für Dritte** | Angehörige oder Sozialarbeiter können Hilfe für eine andere Person anfordern. |
+| **Passwort-Zurücksetzen per Telefon** statt per E-Mail-Link | Die Zielgruppe nutzt E-Mail oft wenig; ein Admin setzt ein neues Passwort, der Kunde bekommt es per Post. |
+| **Termine vergibt das Team** statt Kalender-Auswahl für Kunden | Ein Buchungskalender wäre für unerfahrene Nutzer eher eine Hürde. |
+| **Kunden-Dashboard mit nur drei Bereichen**: Profil, Meine Bestellungen, Passwort ändern | Übersichtlich statt überladen – Mitarbeiter und Admins sehen zusätzliche Menüpunkte je nach Rolle. |
+| **Buchung nur innerhalb der Öffnungszeiten** | Außerhalb erscheint ein klarer Hinweis, der Buchen-Button wird ausgeblendet – niemand wartet vergeblich im Video-Call. |
 
 ## Architektur
 
@@ -36,9 +59,11 @@ Entstanden 2025 als **Diplomprojekt**, danach von mir überarbeitet und veröffe
 ## Features
 
 - **Drei Rollen** – `Customer`, `Employee`, `Admin` – mit serverseitiger Rechteprüfung: Kunden sehen nur ihre eigenen Aufträge und Rechnungen, nur Admins legen Mitarbeiter an.
+- **Services** für Computer, Fernseher und Drucker: Verbindungs- und Einstellungsprobleme, Reparatur- und Kaufberatung, sonstige Probleme – online oder vor Ort.
 - **Buchung von Hilfe** direkt von der Startseite; der Preis wird **serverseitig** aus Minutenpreis × Dauer berechnet.
 - **Video-Support**: Mitarbeiter schalten sich im Dashboard als verfügbar, Kunden werden mit einem freien Mitarbeiter verbunden (GetStream Video, Token wird von der API ausgestellt).
-- **Aufträge & Rechnungen**: Mitarbeiter bearbeiten den Status, abgeschlossene Aufträge erzeugen eine Rechnung mit automatisch berechneter Umsatzsteuer (20 %).
+- **Aufträge & Rechnungen**: Mitarbeiter legen Aufträge an und bearbeiten den Status, abgeschlossene Aufträge erzeugen eine Rechnung mit Zahlungsreferenz und automatisch berechneter Umsatzsteuer (20 %).
+- **Kundenverwaltung durch das Team**: Neue Kunden sind in der Übersicht farblich markiert, bis ein Mitarbeiter die fehlenden Daten ergänzt hat.
 - **Kontaktformular** ohne Login – Anfragen landen im Dashboard und werden einem Mitarbeiter zugewiesen.
 - **Sicherheit**: JWT mit begrenzter Laufzeit, Konto-Sperre nach 5 Fehlversuchen, Passwort-Richtlinie, Secrets nur über User-Secrets bzw. Umgebungsvariablen.
 - **Automatische Datenbank-Einrichtung** beim Start: Migrationen, Rollen und optional ein erster Admin.
@@ -118,18 +143,22 @@ Das Diplomprojekt lief ursprünglich nur lokal mit SQL Server. Für die Veröffe
 
 Details und offene Entscheidungen in [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
-- [ ] **E-Mail-Versand**: „Passwort vergessen“, E-Mail-Bestätigung, Benachrichtigungen bei neuen Anfragen, Auftragsstatus und Rechnungen
 - [ ] **Einstellungen im Dashboard**: Öffnungszeiten pro Wochentag, Feiertage, Firmendaten, Steuersatz und Services statt fest im Code
+- [ ] **Rechnung als PDF** zum Herunterladen und Ausdrucken
+- [ ] **Feedback-Funktion** nach einem abgeschlossenen Service
+- [ ] **Benachrichtigungen** – vor allem für das Team (neue Anfrage, neuer Auftrag); für Kunden nur optional, da die Zielgruppe E-Mail oft wenig nutzt
 - [ ] **Video-Call verbessern**: Warteschlange, Video-Termine zu Aufträgen, Verfügbarkeit gekoppelt an die Öffnungszeiten
+- [ ] **Barrierefreiheit prüfen** (WCAG): Schriftgröße umschaltbar, Tastaturbedienung, Screenreader
 - [ ] **Mehr Tests**: Integrationstests gegen echtes PostgreSQL (Testcontainers), Playwright-E2E in der CI
 - [ ] **Upgrade** auf .NET 10 (LTS) und aktuelles Angular vor dem Support-Ende von .NET 8 (11/2026)
-- [ ] **Performance**: Lazy Loading der Angular-Routen
 - [ ] **Automatisches Deployment** der API per GitHub Actions
 - [ ] Impressum & Datenschutzerklärung
 
 ## Über dieses Projekt
 
-Ich bin Reza Jaghori. EaseTech war mein Diplomprojekt – eine Plattform, die Menschen schnell und unkompliziert bei technischen Problemen hilft, auf Wunsch per Video-Call.
+Ich bin Reza Jaghori. EaseTech war meine Diplomarbeit an der HTL Leonding (2025) – eine Plattform, die vor allem älteren Menschen schnell und unkompliziert bei technischen Problemen hilft, auf Wunsch per Video-Call.
+
+Geplant war das Projekt ursprünglich zu zweit; ich war für das Backend und einzelne Oberflächen zuständig. Nachdem mein Teampartner die Schule verlassen hatte, habe ich das gesamte Projekt – Datenbank, API und Angular-Oberfläche – allein umgesetzt. Den ursprünglich in WPF geplanten Verwaltungsbereich habe ich dafür ebenfalls in Angular gebaut, damit alles eine einheitliche Oberfläche hat.
 
 Nach dem Abschluss wollte ich das Projekt nicht in der Schublade liegen lassen, sondern so weiterentwickeln, wie man es in einem echten Team tun würde: Sicherheitslücken finden und schließen, automatisierte Tests schreiben, eine Cloud-Datenbank anbinden, CI einrichten und die Anwendung tatsächlich online bringen. Dabei ist mir klar geworden, wie groß der Schritt von „läuft auf meinem Rechner“ zu „läuft sicher und nachvollziehbar im Internet“ ist.
 
