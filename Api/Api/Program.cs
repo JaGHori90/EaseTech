@@ -13,20 +13,21 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllers()
-            .AddJsonOptions(option => option.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)));
+            .AddJsonOptions(option =>
+                option.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)));
 
         builder.Services.AddSwaggerExplorer()
-                        .InjectDbContext(builder.Configuration)
-                        .AddAppConfig(builder.Configuration)
-                        .AddIdentityHanlerAndStores()
-                        .ConfigureIdentityOptions()
-                        .AddIdentityAuth(builder.Configuration);
+            .InjectDbContext(builder.Configuration)
+            .AddAppConfig(builder.Configuration)
+            .AddIdentityHanlerAndStores()
+            .ConfigureIdentityOptions()
+            .AddIdentityAuth(builder.Configuration);
 
         var app = builder.Build();
 
         app.ConfigureSwaggerExplorer()
-           .ConfigureCORS()
-           .AddIdentityAuthMiddlewares();
+            .ConfigureCORS()
+            .AddIdentityAuthMiddlewares();
 
         app.MapControllers();
 
